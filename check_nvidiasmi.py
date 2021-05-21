@@ -25,12 +25,16 @@ class Utilization(nagiosplugin.Resource):
             gpuTemp = float(temperature.find('gpu_temp').text.strip(' C'))
             yield nagiosplugin.Metric('gpuTemp', gpuTemp, '')
 
-            fan_speed = gpu.find('fan_speed').text.strip(' %')
-            yield nagiosplugin.Metric('fan_speed', fan_speed, '')
+            fan_speed = gpu.find('fan_speed')
+            if fan_speed == "N/A":
+                fan_speed = 0
+            else:
+                fan_speed = float(gpu.find('fan_speed').text.strip(' %'))
+            yield nagiosplugin.Metric('fan_speed', fan_speed, '%')
 
             link_widths = gpu.find('link_widths')
-            current_link_width = link_widths.find('current_link_width').text.strip('')
-            yield nagiosplugin.Metric('current_link_width', current_link_width, '')
+            current_link_width = link_widths.find('current_link_width').text.strip('x')
+            yield nagiosplugin.Metric('current_link_width', current_link_width, 'x')
 
             single_bit = gpu.find('single_bit')
             ecc_single_bit = float(single_bit.find('total').text.strip(''))

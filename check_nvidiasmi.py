@@ -17,31 +17,36 @@ class Utilization(nagiosplugin.Resource):
             utilization = gpu.find('utilization')
             gpuUtilization = float(utilization.find('gpu_util').text.strip(' %'))
             yield nagiosplugin.Metric('gpuutil', gpuUtilization, '%')
-            
+
             memUtilization = float(utilization.find('memory_util').text.strip(' %'))
             yield nagiosplugin.Metric('memutil', memUtilization, '%')
-            
+
             temperature = gpu.find('temperature')
             gpuTemp = float(temperature.find('gpu_temp').text.strip(' C'))
             yield nagiosplugin.Metric('gpuTemp', gpuTemp, '')
 
-            fan_speed = gpu.find('fan_speed')
-            if fan_speed is "N/A":
-                fan_speed = 0
-            else:
+            try:
                 fan_speed = float(gpu.find('fan_speed').text.strip(' %'))
+            except:
+                fan_speed = 0
             yield nagiosplugin.Metric('fan_speed', fan_speed, '%')
 
-            link_widths = gpu.find('link_widths')
-            current_link_width = link_widths.find('current_link_width').text.strip('x')
+            link_width = gpu.find('pci')
+            link_width = link_width.find('pci_gpu_link_info')
+            link_width = link_width.find('link_widths')
+            current_link_width = float(link_width.find('current_link_width').text.strip('x'))
             yield nagiosplugin.Metric('current_link_width', current_link_width, 'x')
 
-            single_bit = gpu.find('single_bit')
+            single_bit = gpu.find('ecc_errors')
+            single_bit = single_bit.find('aggregate')
+            single_bit = single_bit.find('single_bit')
             ecc_single_bit = float(single_bit.find('total').text.strip(''))
             yield nagiosplugin.Metric('ecc_single_bit', ecc_single_bit, '')
 
-            double_bit = gpu.find('double_bit')
-            ecc_double_bit = float(double_bit.find('total').text.strip(''))
+            double_bit = gpu.find('ecc_errors')
+            double_bit = double_bit.find('aggregate')
+            double_bit = double_bit.find('double_bit')
+            ecc_double_bit = float(single_bit.find('total').text.strip(''))
             yield nagiosplugin.Metric('ecc_double_bit', ecc_double_bit, '')
 
 @nagiosplugin.guarded
@@ -65,7 +70,7 @@ def main():
 
     argp.add_argument('-f', '--fan_speed_warning', metavar='RANGE', default=0,
                       help='warning if threshold is outside RANGE')
-    argp.add_argument('-F', '--fan_speed_critical', metavar='RANGE', default=0,
+    argp.add_argument('-F', '--fan_speed_critical', metavar='RANGE', default=100,
                       help='critical if threshold is outside RANGE')
 
     argp.add_argument('-l', '--link_width_warning', metavar='RANGE', default=0,

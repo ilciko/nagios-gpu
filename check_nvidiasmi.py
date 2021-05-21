@@ -29,7 +29,7 @@ class Utilization(nagiosplugin.Resource):
             yield nagiosplugin.Metric('fan_speed', fan_speed, '')
 
             link_widths = gpu.find('link_widths')
-            current_link_width = float(link_widths.find('current_link_width').text.strip(''))
+            current_link_width = link_widths.find('current_link_width').text.strip('')
             yield nagiosplugin.Metric('current_link_width', current_link_width, '')
 
             single_bit = gpu.find('single_bit')

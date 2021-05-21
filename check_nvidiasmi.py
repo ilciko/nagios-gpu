@@ -26,7 +26,7 @@ class Utilization(nagiosplugin.Resource):
             yield nagiosplugin.Metric('gpuTemp', gpuTemp, '')
 
             fan_speed = gpu.find('fan_speed')
-            if fan_speed == "N/A":
+            if fan_speed is "N/A":
                 fan_speed = 0
             else:
                 fan_speed = float(gpu.find('fan_speed').text.strip(' %'))

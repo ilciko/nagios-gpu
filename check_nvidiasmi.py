@@ -64,9 +64,9 @@ def main():
     argp.add_argument('-F', '--fan_speed_critical', metavar='RANGE', default=0,
                       help='critical if threshold is outside RANGE')
 
-    argp.add_argument('-l', '--link_widths_warning', metavar='RANGE', default=0,
+    argp.add_argument('-l', '--link_width_warning', metavar='RANGE', default=0,
                       help='warning if threshold is outside RANGE')
-    argp.add_argument('-L', '--link_widths_critical', metavar='RANGE', default=0,
+    argp.add_argument('-L', '--link_width_critical', metavar='RANGE', default=0,
                       help='critical if threshold is outside RANGE')
 
     argp.add_argument('-sb', '--ecc_single_bit_warning', metavar='RANGE', default=0,

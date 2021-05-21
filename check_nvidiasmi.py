@@ -95,7 +95,7 @@ def main():
             nagiosplugin.ScalarContext('fan_speed', args.fan_speed_warning, args.fan_speed_critical),
             nagiosplugin.ScalarContext('current_link_width', args.link_width_warning, args.link_width_critical),
             nagiosplugin.ScalarContext('ecc_single_bit', args.ecc_single_bit_warning, args.ecc_single_bit_critical),
-            nagiosplugin.ScalarContext('ecc_double_bit', args.ecc_double_warning, args.ecc_double_critical)
+            nagiosplugin.ScalarContext('ecc_double_bit', args.ecc_double_bit_warning, args.ecc_double_bit_critical)
             )
     check.main(verbose=args.verbose)
 

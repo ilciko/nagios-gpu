@@ -25,7 +25,7 @@ class Utilization(nagiosplugin.Resource):
             gpuTemp = float(temperature.find('gpu_temp').text.strip(' C'))
             yield nagiosplugin.Metric('gpuTemp', gpuTemp, '')
 
-            fan_speed = float(gpu.find('fan_speed').text.strip(' %'))
+            fan_speed = gpu.find('fan_speed').text.strip(' %')
             yield nagiosplugin.Metric('fan_speed', fan_speed, '')
 
             link_widths = gpu.find('link_widths')
